@@ -1,7 +1,8 @@
 require("dotenv").config();
 const User = require("../model/manager_model");
-const { body, validationResult } = require("express-validator");
+// const { body, validationResult } = require("express-validator");
 var jwt = require("jsonwebtoken");
+// console.log(process.env.JWT_SECRET_KEY)
 const newToken = (user) => {
     return jwt.sign({ user }, process.env.JWT_SECRET_KEY);
 };
@@ -36,13 +37,13 @@ const login = async (req, res) => {
         if (!user)
             return res
                 .status(400)
-                .send({ message: "Please try another email or password" });
+                .send({ message: "Please try another email or password1" });
         // if user is found then we will match the passwords
         const match = user.checkPassword(req.body.password);
         if (!match)
             return res
                 .status(400)
-                .send({ message: "Please try another email or password" });
+                .send({ message: "Please try another email or password2" });
         // then we will create the token for that user
         const token = newToken(user);
         // then return the user and the token

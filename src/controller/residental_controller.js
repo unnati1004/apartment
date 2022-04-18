@@ -1,5 +1,6 @@
 const express = require("express");
 const residental_schema = require("../model/residental");
+const flat = require("../model/flat");
 const router = express.Router();
 
 router.post("",async(req,res)=>{
@@ -22,5 +23,17 @@ router.post("",async(req,res)=>{
          res.status(500).send({message:err.message})
      }
  })
+
+   router.post("/:residental_id",async(req,res)=>{
+       try {
+           const resident = await residental_schema.create(req.body);
+            // const {flat} = await flat.findById(req.params.flat)
+
+       } catch (error) {
+           return res.send(error);
+       }
+   })
+
+
 
  module.exports = router;
