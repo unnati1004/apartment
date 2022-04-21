@@ -5,7 +5,12 @@ const router = express.Router();
 
 router.post("",async(req,res)=>{
     try{
-        const item = await residental_schema.create();
+        const item = await residental_schema.create(
+           { Name: req.body.Name,
+            Gender: req.body.Gender,
+            Age: req.body.Age,
+        }
+        );
         res.send(item)
     }
     catch(err)
@@ -22,18 +27,22 @@ router.post("",async(req,res)=>{
      catch(err){
          res.status(500).send({message:err.message})
      }
- })
+ });
 
-   router.post("/:residental_id",async(req,res)=>{
-       try {
-           const resident = await residental_schema.create(req.body);
-            // const {flat} = await flat.findById(req.params.flat)
+ router.post("/:flats_ID",async(req,res)=>{
+    try {
+        const resident = await residental_schema.create(req.body);
+        const {residental_id} = await flat.findById(req.params.flats_ID)
+        residental_id.push(resident._id);
+             await flat.findByIdAndUpdate(req.params.flats_ID,{residental_id});
+                    return res.send(resident);
+    } catch (error) {
+        return res.send(error);
+    }
+});
+  
 
-       } catch (error) {
-           return res.send(error);
-       }
-   })
-
+   
 
 
  module.exports = router;
